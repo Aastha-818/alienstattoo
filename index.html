@@ -508,7 +508,7 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
 </div>
 
 <svg id="cur" aria-hidden="true" width="100%" height="100%">
-  <path id="rope" fill="none" stroke="#2C2926" stroke-width="5" stroke-linecap="round"/>
+  <path id="rope" fill="none" stroke="#2C2926" stroke-width="3.2" stroke-linecap="round"/>
   <path id="rope2" fill="none" stroke="#4A4540" stroke-width="1.2" stroke-linecap="round"/>
   <g id="mach">
     <g id="mbody">
@@ -535,7 +535,6 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
 <div id="chip">hold to ink</div>
 <div class="grain" aria-hidden="true"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -586,11 +585,8 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
   }
   function revealHero(){ const h=$('#hero .rv'); if(h) h.classList.add('in'); }
 
-  /* ---------- smooth scroll ---------- */
-  let lenis=null;
-  if(!reduce && window.Lenis){ try{ lenis=new Lenis({lerp:.1}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
-    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ const el=document.querySelector(a.getAttribute('href')); if(el){ e.preventDefault(); lenis.scrollTo(el,{offset:0}); } }));
-  }catch(e){ lenis=null; } }
+  /* ---------- native scrolling only (no wheel hijack) ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ const el=document.querySelector(a.getAttribute('href')); if(el){ e.preventDefault(); el.scrollIntoView({behavior:reduce?'auto':'smooth'}); } }));
 
   /* ---------- reveals ---------- */
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -12% 0px'});
@@ -622,7 +618,7 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
   /* ---------- the machine cursor ---------- */
   const cur=$('#cur'), mach=$('#mach'), mbody=$('#mbody'), rope=$('#rope'), rope2=$('#rope2'), chip=$('#chip'), grip=$('#grip'), cartCap=$('#cartCap'), led=$('#led');
   let mx=-200,my=-200,lx=-200,ly=-200,vx=0,ang=30,inking=false,label='',hoverMode='';
-  const S=.62, LEN=248*S, RN=18, RSEG=17;
+  const S=.4, LEN=248*S, RN=16, RSEG=11;
   const rp=[...Array(RN)].map((_,i)=>({x:-200,y:-200+i*RSEG,px:-200,py:-200+i*RSEG}));
   function enableCursor(){ if(fine()) document.documentElement.classList.add('cur'); else document.documentElement.classList.remove('cur'); }
   enableCursor(); addEventListener('resize',enableCursor);
@@ -664,7 +660,7 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
       let d=`M${rp[0].x.toFixed(1)} ${rp[0].y.toFixed(1)}`;
       for(let i=1;i<RN-1;i++){ const xc=(rp[i].x+rp[i+1].x)/2, yc=(rp[i].y+rp[i+1].y)/2; d+=` Q${rp[i].x.toFixed(1)} ${rp[i].y.toFixed(1)} ${xc.toFixed(1)} ${yc.toFixed(1)}`; }
       rope.setAttribute('d',d); rope2.setAttribute('d',d);
-      chip.style.transform=`translate(${mx+22}px,${my+18}px)`;
+      chip.style.transform=`translate(${mx+16}px,${my+14}px)`;
     }
     requestAnimationFrame(frame);
   }
@@ -764,8 +760,8 @@ footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,
   function openLb(i){ const p=plates[i]; lastFocus=document.activeElement; $('#lbImg').src=px(p.id,1400); $('#lbImg').alt=p.n; $('#lbPh').classList.remove('noimg');
     $('#lbImg').onerror=()=>$('#lbPh').classList.add('noimg'); $('#lbFb').textContent=String(i+1).padStart(2,'0');
     $('#lbIdx').textContent='plate '+String(i+1).padStart(2,'0')+' / '+String(NP).padStart(2,'0'); $('#lbName').textContent=p.n; $('#lbTxt').textContent=p.t;
-    lb.hidden=false; if(lenis) lenis.stop(); $('#lbClose').focus(); }
-  function closeLb(){ lb.hidden=true; if(lenis) lenis.start(); if(lastFocus) lastFocus.focus(); }
+    lb.hidden=false; document.documentElement.style.overflow='hidden'; $('#lbClose').focus(); }
+  function closeLb(){ lb.hidden=true; document.documentElement.style.overflow=''; if(lastFocus) lastFocus.focus(); }
   $('#lbClose').addEventListener('click',closeLb); lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
   addEventListener('keydown',e=>{ if(e.key==='Escape' && !lb.hidden) closeLb(); });
 
