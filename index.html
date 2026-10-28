@@ -1,0 +1,796 @@
+<title>Aliens Tattoo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Aliens Tattoo: realism, colour surrealism and mythology tattoo studios in 12+ Indian cities, and India's first tattoo school.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Familjen+Grotesk:wght@400..700&family=Martian+Mono:wght@300..500&display=swap">
+<!--
+  v2 — dark, Lass-Tattoo-grade layout (user reference: lasstattoo.com)
+  Borrowed structure from Lass: lowercase display type with hand-set hyphen splits,
+  loader, about → portfolio → approach → pre-care → contact rhythm.
+  Our own moves:
+   · CURSOR  a rotary tattoo machine. Needle tip = hotspot. Body tilts with speed,
+             its cable swings with real (verlet) physics, it buzzes while inking,
+             and it "loads" an artist's cartridge when you hover the rack.
+   · HERO    the hero is skin: hold the mouse to tattoo it. Fresh ink is stencil
+             violet, it heals to grey in a few seconds. "Wipe with green soap" clears it.
+   · WORK    the gallery is a sleeve: plates wrapped on a 3D cylinder you spin by scroll or drag.
+   · ARTISTS a rack of needle cartridges, one per artist.
+  Photos: licensed Pexels stand-ins until Sunny's own exports are dropped in.
+-->
+<style>
+/* Layout: 12-col on a warm-black ground; one sticky 3D scene (sleeve); everything else stacks */
+:root{
+  --bg:#0D0C0B;          /* studio after hours */
+  --panel:#171513;
+  --bone:#E8E3D9;        /* ink on dark */
+  --dim:color-mix(in srgb,var(--bone) 58%,transparent);
+  --line:color-mix(in srgb,var(--bone) 16%,transparent);
+  --stencil:#9B8DFF;     /* thermal stencil violet — the one accent */
+  --disp:"Gloock", "Times New Roman", Georgia, serif;
+  --text:"Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono:"Martian Mono", "SFMono-Regular", Menlo, monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --gut:max(clamp(16px,4vw,60px), env(safe-area-inset-left,0px));
+  --gut-r:max(clamp(16px,4vw,60px), env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+em,i,cite,address,dfn,var{font-style:normal}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--bone);font-family:var(--text);font-size:18px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
+::selection{background:var(--stencil);color:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--stencil);outline-offset:3px}
+img{display:block;max-width:100%}
+.wrap{max-width:1480px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut-r)}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+.mono{font-family:var(--mono);font-size:11px;line-height:1.5;letter-spacing:.06em;text-transform:lowercase;font-weight:400}
+.dim{color:var(--dim)}
+h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;letter-spacing:-.03em;text-transform:lowercase}
+h2{font-size:clamp(3rem,8.4vw,9.4rem);line-height:.86}
+p{margin:0;text-wrap:pretty}
+.lede{font-size:clamp(17px,1.4vw,21px);max-width:46ch;color:color-mix(in srgb,var(--bone) 82%,transparent)}
+section{position:relative}
+.sec{padding-block:clamp(96px,16vh,180px)}
+.kick{display:flex;align-items:center;gap:14px;margin-bottom:clamp(24px,4vh,44px);color:var(--dim)}
+.kick b{color:var(--bone);font-weight:500}
+.kick i{width:36px;height:1px;background:currentColor}
+
+/* masked line reveal */
+.ml{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.ml>span{display:block;transition:transform 1.1s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+html.js .rv:not(.in) .ml>span{transform:translateY(110%)}
+
+/* grain */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:70;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 var(--gut-r) max(28px,env(safe-area-inset-bottom,0px)) var(--gut);transition:clip-path 1s var(--ease)}
+#loader.out{clip-path:inset(0 0 100% 0)}
+#loader .num{font-family:var(--disp);font-size:clamp(5rem,18vw,16rem);line-height:.8;letter-spacing:-.04em}
+#loader .bar{height:1px;background:var(--line);margin-top:20px;position:relative}
+#loader .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--stencil)}
+#loader .row{display:flex;justify-content:space-between;margin-top:10px}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:50;padding-top:env(safe-area-inset-top,0px);transition:background .3s linear,border-color .3s linear;border-bottom:1px solid transparent}
+.nav.solid{background:color-mix(in srgb,var(--bg) 92%,transparent);border-color:var(--line)}
+.nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--disp);font-size:22px;text-decoration:none;letter-spacing:-.02em;white-space:nowrap}
+.links{display:flex;gap:26px}
+.links a{text-decoration:none;color:var(--dim);font-size:15px}
+.links a:hover{color:var(--bone)}
+.nav-r{display:flex;align-items:center;gap:18px}
+.snd{background:none;border:0;color:var(--dim);padding:8px 0;cursor:pointer}
+.snd[aria-pressed=true]{color:var(--stencil)}
+.pill{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:15px;color:var(--bg);background:var(--bone);
+  padding:11px 20px;border-radius:999px;white-space:nowrap;transition:background .2s linear}
+.pill:hover{background:var(--stencil)}
+
+/* ---------- hero = skin ---------- */
+#hero{min-height:100svh;padding-top:calc(64px + env(safe-area-inset-top,0px));overflow:hidden;user-select:none;-webkit-user-select:none}
+#hero .g12{min-height:calc(100svh - 64px - env(safe-area-inset-top,0px));align-items:end;padding-bottom:clamp(28px,5vh,56px)}
+.h-photo{grid-column:7/13;grid-row:1;align-self:stretch;position:relative;margin-top:clamp(12px,3vh,32px);overflow:hidden;background:var(--panel)}
+.h-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.72);transform:scale(1.08);transition:transform 2.4s var(--ease)}
+body.ready .h-photo img{transform:scale(1)}
+.h-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,12,11,0) 0%,rgba(13,12,11,.05) 40%,rgba(13,12,11,.25) 70%,rgba(13,12,11,.6) 88%,rgba(13,12,11,.85) 96%,#0D0C0B 100%)}
+.h-photo .cap{position:absolute;left:14px;top:12px;z-index:2;color:var(--dim)}
+.h-copy{grid-column:1/-1;grid-row:1;position:relative;z-index:3;display:flex;flex-direction:column;gap:clamp(18px,3vh,30px);pointer-events:none}
+.h-copy a,.h-copy button{pointer-events:auto}
+#hero h1{font-size:clamp(4.2rem,15.2vw,17rem);line-height:.88;letter-spacing:-.045em}
+#hero h1 .ml:nth-child(2){padding-left:12vw}
+.h-row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:end}
+.h-row .lede{grid-column:1/6}
+.h-try{grid-column:8/13;display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--line);padding-top:12px}
+.h-try button{font:inherit;background:none;border:0;color:var(--bone);padding:10px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+#ink{position:absolute;inset:0;z-index:4;pointer-events:none}
+#inkMode{display:none}
+
+/* marquee */
+.marq{border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;padding-block:18px}
+.marq .tr{display:inline-flex;gap:48px;animation:mq 38s linear infinite;padding-left:48px}
+.marq:hover .tr{animation-play-state:paused}
+.marq span{font-family:var(--disp);font-size:clamp(1.8rem,3.4vw,3.2rem);letter-spacing:-.02em;text-transform:lowercase}
+.marq span.o{color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--bone) 60%,transparent)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- 01 sentence ---------- */
+#story h2{grid-column:1/-1;font-size:clamp(3rem,9.6vw,10.6rem)}
+#story h2 .ml:nth-child(2){padding-left:16vw}
+#story h2 .v{color:var(--stencil)}
+.story-b{grid-column:1/-1;margin-top:clamp(36px,7vh,80px);align-items:start}
+.story-b .lede{grid-column:2/7}
+.facts{grid-column:8/13;margin:0;border-top:1px solid var(--line)}
+.facts div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.facts dt{color:var(--dim)}
+.facts dd{margin:0;font-size:17px}
+
+/* ---------- 02 sleeve ---------- */
+#work{height:420vh}
+.sleeve-stage{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column}
+.sleeve-stage>.wrap{width:100%}
+.sleeve-top{padding-top:calc(88px + env(safe-area-inset-top,0px));display:flex;justify-content:space-between;align-items:end;gap:24px}
+.sleeve-top h2{font-size:clamp(3rem,7vw,7.6rem)}
+.sleeve-top .lede{max-width:34ch;font-size:16px}
+.scene{flex:1;position:relative;perspective:1700px;perspective-origin:50% 40%;cursor:grab}
+.ring{position:absolute;left:50%;top:50%;transform-style:preserve-3d;will-change:transform}
+.plate{border:0;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer;position:absolute;left:0;top:0;transform-style:preserve-3d;backface-visibility:hidden;background:var(--panel);overflow:hidden}
+.plate img{width:100%;height:100%;object-fit:cover;filter:grayscale(.55) contrast(1.08) brightness(.82)}
+.plate .pn{position:absolute;left:12px;top:10px;font-family:var(--disp);font-size:44px;line-height:1;color:var(--bone);mix-blend-mode:difference}
+.plate .fb{position:absolute;inset:0;display:none;flex-direction:column;justify-content:flex-end;padding:18px;
+  background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--bone) 5%,transparent) 14px 15px),var(--panel)}
+.plate.noimg .fb{display:flex}
+.plate.noimg img{display:none}
+.plate .fb b{font-family:var(--disp);font-weight:400;font-size:clamp(26px,2.4vw,38px);line-height:.95;text-transform:lowercase}
+.sleeve-meta{display:flex;justify-content:space-between;align-items:end;gap:20px;padding-bottom:max(26px,env(safe-area-inset-bottom,0px))}
+.sleeve-meta .now{display:flex;align-items:baseline;gap:18px}
+.sleeve-meta .now b{font-family:var(--disp);font-weight:400;font-size:clamp(28px,3vw,46px);text-transform:lowercase;letter-spacing:-.02em}
+.prog{flex:1;max-width:360px;height:1px;background:var(--line);position:relative}
+.prog i{position:absolute;left:0;top:0;bottom:0;background:var(--bone);width:0}
+.strip{display:none}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:75;background:color-mix(in srgb,var(--bg) 94%,transparent);display:grid;place-items:center;padding:24px}
+#lb[hidden]{display:none}
+#lb figure{margin:0;max-width:min(920px,100%);display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:end}
+#lb .ph{aspect-ratio:4/5;background:var(--panel);overflow:hidden;position:relative}
+#lb .ph img{width:100%;height:100%;object-fit:cover}
+#lb .ph .fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:var(--disp);font-size:120px;color:var(--dim)}
+#lb .ph.noimg .fb{display:flex}
+#lb figcaption h3{font-size:clamp(36px,4vw,58px);line-height:.95}
+#lb figcaption p{margin-top:14px;color:var(--dim)}
+#lbClose{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));right:calc(18px + env(safe-area-inset-right,0px));background:none;border:1px solid var(--line);color:var(--bone);font:inherit;padding:10px 16px;border-radius:999px;cursor:pointer}
+
+/* ---------- 03 cartridge rack ---------- */
+#artists .g12{align-items:end}
+.a-detail{grid-column:1/6;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:420px}
+.a-detail .idx{color:var(--dim)}
+.a-detail h3{font-size:clamp(3rem,6.4vw,6.6rem);line-height:.88;min-height:2em}
+.a-detail .what{font-size:19px;max-width:30ch}
+.a-detail dl{margin:0;display:grid;grid-template-columns:90px 1fr;gap:6px 14px}
+.a-detail dt{color:var(--dim)}
+.a-detail dd{margin:0}
+.a-detail .bk{align-self:flex-start}
+.rack{grid-column:6/13;position:relative;display:flex;gap:clamp(6px,.8vw,12px);justify-content:flex-end;align-items:flex-end;padding-bottom:22px;overflow-x:auto;scrollbar-width:none}
+.rack::-webkit-scrollbar{display:none}
+.rack::after{content:"";position:absolute;left:0;right:0;bottom:16px;height:6px;background:var(--panel);border-top:1px solid var(--line)}
+.cart{flex:0 0 auto;width:clamp(40px,3.5vw,52px);height:clamp(300px,46vh,420px);background:none;border:0;padding:0;color:var(--bone);cursor:pointer;
+  position:relative;z-index:1;transition:transform .55s var(--ease);display:flex;flex-direction:column;align-items:center}
+.cart .cap{width:100%;height:30px;border-radius:8px 8px 3px 3px;background:color-mix(in srgb,var(--bone) 22%,var(--panel));transition:background .25s linear}
+.cart .bd{flex:1;width:84%;border:1px solid color-mix(in srgb,var(--bone) 30%,transparent);border-top:0;background:color-mix(in srgb,var(--bone) 5%,transparent);
+  position:relative;display:flex;align-items:center;justify-content:center}
+.cart .bd::before{content:"";position:absolute;top:0;bottom:-30px;left:50%;width:1px;background:color-mix(in srgb,var(--bone) 35%,transparent)}
+.cart .bd span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:var(--bg);padding:6px 0;color:var(--dim);white-space:nowrap;position:relative}
+.cart .tip{width:46%;height:30px;clip-path:polygon(0 0,100% 0,62% 100%,38% 100%);background:color-mix(in srgb,var(--bone) 30%,var(--panel))}
+.cart:hover,.cart.on{transform:translateY(-34px)}
+.cart.on .cap{background:var(--stencil)}
+.cart.on .bd span,.cart:hover .bd span{color:var(--bone)}
+
+/* ---------- 04 school ---------- */
+#school{background:var(--bone);color:var(--bg)}
+#school ::selection{background:var(--bg);color:var(--bone)}
+#school .kick,#school .dim{color:color-mix(in srgb,var(--bg) 58%,transparent)}
+#school .kick b{color:var(--bg)}
+#school h2{grid-column:1/-1}
+#school h2 .ml:nth-child(2){padding-left:22vw}
+.school-b{grid-column:1/-1;margin-top:clamp(36px,6vh,72px);align-items:start}
+.school-b .lede{grid-column:7/12;color:color-mix(in srgb,var(--bg) 82%,transparent)}
+.alumni{grid-column:1/6;font-family:var(--disp);font-size:clamp(26px,2.6vw,40px);line-height:1.05;text-transform:lowercase;letter-spacing:-.02em}
+.alumni span{display:block}
+.alumni small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;margin-bottom:14px;color:color-mix(in srgb,var(--bg) 58%,transparent)}
+.tally{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(48px,8vh,96px);border-top:1px solid color-mix(in srgb,var(--bg) 22%,transparent)}
+.tally div{padding:16px 16px 0 0;min-width:0}
+.tally div+div{padding-left:16px;border-left:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+.tally strong{display:block;font-family:var(--disp);font-weight:400;font-size:clamp(2.6rem,5vw,5.4rem);line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.tally span{display:block;margin-top:10px;color:color-mix(in srgb,var(--bg) 58%,transparent)}
+
+/* ---------- 05 studios ---------- */
+.cities{grid-column:1/-1;margin-top:clamp(28px,5vh,56px);border-top:1px solid var(--line)}
+.city{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,2fr) auto;align-items:baseline;gap:20px;padding:18px 0;border-bottom:1px solid var(--line);
+  text-decoration:none;transition:padding .45s var(--ease),color .2s linear}
+.city b{font-family:var(--disp);font-weight:400;font-size:clamp(30px,3.8vw,58px);line-height:1;text-transform:lowercase;letter-spacing:-.02em}
+.city .ar{transition:transform .3s var(--ease)}
+.city:hover{padding-left:24px;color:var(--stencil)}
+.city:hover .ar{transform:translateX(6px)}
+.rating{grid-column:1/-1;display:flex;gap:28px;flex-wrap:wrap;margin-top:22px;color:var(--dim)}
+
+/* ---------- 06 before ---------- */
+.prep{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:clamp(28px,5vh,56px);border-top:1px solid var(--line)}
+.prep div{padding:18px 18px 0 0;min-width:0}
+.prep div+div{padding-left:18px;border-left:1px solid var(--line)}
+.prep .t{color:var(--stencil)}
+.prep h3{font-size:clamp(26px,2.3vw,36px);line-height:1;margin:12px 0 10px}
+.prep p{font-size:16px;color:color-mix(in srgb,var(--bone) 76%,transparent)}
+
+/* ---------- 07 book ---------- */
+#book .txt{grid-column:1/6}
+#book form{grid-column:7/13;display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.f.w{grid-column:1/-1}
+.f label,.f legend{color:var(--dim)}
+input,select,textarea{font:inherit;font-size:17px;color:var(--bone);background:transparent;border:0;border-bottom:1px solid color-mix(in srgb,var(--bone) 40%,transparent);
+  border-radius:0;padding:10px 0;width:100%;appearance:none;-webkit-appearance:none}
+select option{background:var(--panel);color:var(--bone)}
+textarea{resize:vertical;min-height:84px;line-height:1.45}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23E8E3D9' stroke-width='1.4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;padding-right:22px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--stencil)}
+::placeholder{color:color-mix(in srgb,var(--bone) 36%,transparent)}
+fieldset{border:0;margin:0;padding:0}
+.who{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.who input{position:absolute;opacity:0;width:1px;height:1px}
+.who label{color:var(--bone);border:1px solid var(--line);border-radius:999px;padding:10px 18px;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;font-size:15px}
+.who input:checked+label{background:var(--bone);color:var(--bg);border-color:var(--bone)}
+.who input:focus-visible+label{outline:2px solid var(--stencil);outline-offset:3px}
+.send{grid-column:1/-1;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+button.pill{border:0;cursor:pointer;font-family:var(--text);min-height:48px;padding:14px 26px}
+#sent{grid-column:1/-1;border-left:2px solid var(--stencil);padding:4px 0 4px 14px;font-size:16px}
+
+/* ---------- footer ---------- */
+footer{padding-block:clamp(72px,12vh,140px) max(28px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.word{font-family:var(--disp);font-size:clamp(3.6rem,17.5vw,19rem);line-height:.9;letter-spacing:-.05em;text-transform:lowercase;margin:0 0 clamp(36px,6vh,64px)}
+.word .ml:nth-child(2){padding-left:9vw}
+.fcols{row-gap:28px}
+.fcols>div{grid-column:span 3;min-width:0}
+.fcols p{font-size:16px}
+.fcols p.mono{font-size:11px}
+.fcols .mono{color:var(--dim);margin-bottom:10px}
+.fcols a{text-underline-offset:4px;text-decoration-thickness:1px}
+.colo{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:clamp(40px,7vh,72px);padding-top:16px;border-top:1px solid var(--line);color:var(--dim)}
+
+/* ---------- the machine cursor ---------- */
+#cur{position:fixed;inset:0;z-index:90;pointer-events:none;display:none;overflow:visible}
+#chip{position:fixed;left:0;top:0;z-index:91;pointer-events:none;display:none;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  background:var(--bone);color:var(--bg);padding:6px 10px;border-radius:999px;white-space:nowrap;opacity:0;transition:opacity .2s linear}
+#chip.show{opacity:1}
+@media (pointer:fine) and (min-width:900px){
+  html.cur, html.cur *{cursor:none !important}
+  html.cur input, html.cur textarea, html.cur select{cursor:text !important}
+  html.cur #cur, html.cur #chip{display:block}
+}
+
+/* ---------- small screens: swap, don't shrink ---------- */
+@media (max-width:899px){
+  .g12,.h-row{grid-template-columns:minmax(0,1fr)}
+  .g12>*,.h-row>*{grid-column:1/-1 !important}
+  .links,.snd{display:none}
+  .nav .wrap{height:58px}
+  #hero{min-height:auto;padding-bottom:24px}
+  #hero .g12{min-height:auto;padding-top:20px}
+  .h-photo{grid-row:2;aspect-ratio:4/5;margin-top:22px}
+  .h-copy{grid-row:1}
+  #hero h1 .ml:nth-child(2){padding-left:8vw}
+  .h-try{margin-top:8px}
+  #inkMode{display:inline}
+  #hero.inking{touch-action:none}
+  .story-b,.school-b{row-gap:28px}
+  .facts div{grid-template-columns:96px 1fr}
+  #work{height:auto}
+  .sleeve-stage{position:relative;height:auto;padding-block:96px 40px}
+  .sleeve-top{flex-direction:column;align-items:flex-start;padding-top:0}
+  .scene,.sleeve-meta{display:none}
+  .strip{padding-left:var(--gut);padding-right:var(--gut-r);scroll-padding-left:var(--gut);display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin-top:28px;padding-bottom:10px;scrollbar-width:none}
+  .strip .plate{position:relative;flex:0 0 74%;aspect-ratio:4/5;scroll-snap-align:start;transform:none !important}
+  .a-detail{min-height:0}
+  .rack{justify-content:flex-start;margin-top:36px;padding-top:40px}
+  .cart{height:280px}
+  .tally{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tally div{padding:16px 12px 16px 0 !important;border-left:0 !important;border-bottom:1px solid color-mix(in srgb,var(--bg) 14%,transparent)}
+  .city{grid-template-columns:minmax(0,1fr) auto;row-gap:2px}
+  .city .mono:not(.ar){grid-column:1}
+  .prep{grid-template-columns:minmax(0,1fr)}
+  .prep div{padding:18px 0 !important;border-left:0 !important;border-bottom:1px solid var(--line)}
+  #book form{grid-template-columns:1fr;margin-top:32px}
+  #lb figure{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .marq .tr{animation:none}
+  .ml>span,.h-photo img,.cart,.city{transition:none !important}
+  html.js .rv:not(.in) .ml>span{transform:none}
+}
+</style>
+
+<div id="loader" aria-hidden="true">
+  <div class="num" id="ldNum">000</div>
+  <div class="bar"><i id="ldBar"></i></div>
+  <div class="row mono dim"><span>loading ink</span><span>aliens tattoo · since 2011</span></div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#hero" data-cursor="top">aliens tattoo</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#work" data-cursor="the sleeve">work</a><a href="#artists" data-cursor="the rack">artists</a><a href="#school" data-cursor="the school">school</a><a href="#studios" data-cursor="studios">studios</a>
+    </nav>
+    <div class="nav-r">
+      <button class="snd mono" id="snd" aria-pressed="false" data-cursor="buzz">sound off</button>
+      <a class="pill" href="#book" data-cursor="book">book a sitting <span aria-hidden="true">↘</span></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO: the skin. Hold to tattoo it. -->
+  <section id="hero" data-cursor="hold to ink">
+    <canvas id="ink" aria-hidden="true"></canvas>
+    <div class="wrap g12">
+      <div class="h-photo">
+        <img src="https://images.pexels.com/photos/2928342/pexels-photo-2928342.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="A tattoo artist at work, in black and white" onerror="this.closest('.h-photo').style.display='none'">
+        <span class="cap mono">fig. 00 · the floor</span>
+      </div>
+      <div class="h-copy rv">
+        <p class="mono dim">tattoo studios · school · mumbai since 2011 · 12+ cities</p>
+        <h1><span class="ml"><span style="--i:0">aliens</span></span><span class="ml"><span style="--i:1">tattoo</span></span></h1>
+        <div class="h-row">
+          <p class="lede">photo-real skin, colour surrealism, mythology, fine line and script, by the artists on our floor in 12+ cities. we’re known for one reaction: the jaw-drop.</p>
+          <div class="h-try mono">
+            <span id="tryTxt">hold anywhere here to try the needle</span>
+            <span><button id="inkMode" type="button">try the needle</button> <button id="wipe" type="button" data-cursor="clean">wipe with green soap</button></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq" aria-hidden="true"><div class="tr" id="mq">
+    <span>hyper-realism</span><span class="o">colour surrealism</span><span>mythology</span><span class="o">sacred geometry</span><span>portraits</span><span class="o">fine line</span><span>since 2011</span><span class="o">12+ cities</span>
+  </div></div>
+
+  <!-- 01 · the sentence -->
+  <section class="sec" id="story">
+    <div class="wrap g12">
+      <div class="kick mono" style="grid-column:1/-1"><b>01</b><i></i><span>how aliens started</span></div>
+      <h2 class="rv"><span class="ml"><span style="--i:0">“you don’t have</span></span><span class="ml"><span style="--i:1"><span class="v">that thing</span></span></span><span class="ml"><span style="--i:2">in you.”</span></span></h2>
+      <div class="g12 story-b" style="padding:0">
+        <p class="lede">that’s what an artist told our founder, sunny bhanushali, the first time a friend walked him into a tattoo studio. he was a graphic designer from dombivli who drew in charcoal at night. he kept the sentence, and in 2011 he opened aliens in mumbai. every piece on our floor since has been the reply.</p>
+        <dl class="facts">
+          <div><dt class="mono">founder</dt><dd>sunny bhanushali, the artist behind virat kohli’s and hardik pandya’s pieces</dd></div>
+          <div><dt class="mono">in print</dt><dd>total tattoo magazine (uk) · illusion scene 360 · forbes india</dd></div>
+          <div><dt class="mono">our styles</dt><dd>photo-realism · colour surrealism · mythology · geometry · fine line · script</dd></div>
+          <div><dt class="mono">the floor</dt><dd>illustrators, painters and digital artists who tattoo</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · the sleeve: gallery on a 3D cylinder -->
+  <section id="work">
+    <div class="sleeve-stage">
+      <div class="wrap sleeve-top">
+        <div class="rv">
+          <div class="kick mono"><b>02</b><i></i><span>the work</span></div>
+          <h2><span class="ml"><span>spin the</span></span><span class="ml"><span style="--i:1">sleeve.</span></span></h2>
+        </div>
+        <p class="lede">scroll or drag the arm. every plate is a style tattooed on our floor. click one to look closer.</p>
+      </div>
+      <div class="scene" id="scene" data-cursor="drag to spin"><div class="ring" id="ring"></div></div>
+      <div class="strip" id="strip"></div>
+      <div class="wrap sleeve-meta">
+        <div class="now"><span class="mono dim" id="pIdx">plate 01 / 08</span><b id="pName">black &amp; grey, at work</b></div>
+        <div class="prog"><i id="pBar"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · the rack: artists as needle cartridges -->
+  <section class="sec" id="artists">
+    <div class="wrap">
+      <div class="kick mono"><b>03</b><i></i><span>the artists</span></div>
+      <h2 class="rv" style="margin-bottom:clamp(40px,7vh,80px)"><span class="ml"><span>pick a</span></span><span class="ml"><span style="--i:1">cartridge.</span></span></h2>
+    </div>
+    <div class="wrap g12">
+      <div class="a-detail" aria-live="polite">
+        <div>
+          <p class="mono idx" id="aIdx">cartridge 02 / 12</p>
+          <h3 id="aName">allan gois</h3>
+        </div>
+        <p class="what" id="aWhat">dotwork, portraits, realism and new school.</p>
+        <dl class="mono"><dt>city</dt><dd id="aCity">mumbai</dd><dt>note</dt><dd id="aNote">award winner at india’s biggest conventions</dd></dl>
+        <a class="pill bk" href="#book" id="aBook" data-cursor="book">book with allan ↘</a>
+      </div>
+      <div class="rack" id="rack" role="group" aria-label="Choose an artist"></div>
+    </div>
+  </section>
+
+  <!-- 04 · the school (colour flip) -->
+  <section class="sec" id="school">
+    <div class="wrap g12">
+      <div class="kick mono" style="grid-column:1/-1"><b>04</b><i></i><span>aliens tattoo school</span></div>
+      <h2 class="rv"><span class="ml"><span>the thing can</span></span><span class="ml"><span style="--i:1">be learnt.</span></span></h2>
+      <div class="g12 school-b" style="padding:0">
+        <p class="alumni"><small>trained here, now on our floor</small><span>sakshi panwar</span><span>binod tamang</span><span>darshan vaya</span><span>manoj laddha</span></p>
+        <p class="lede">aliens tattoo school was india’s first, recognised by the government as a startup. lila, learn it like aliens, takes the same course online. many of the artists you’ll sit with learnt here, which is why the work feels the same in every city. the answer to “that thing” turned out to be teachable.</p>
+      </div>
+      <div class="tally">
+        <div><strong>2011</strong><span class="mono">first studio, mumbai</span></div>
+        <div><strong><b data-count="12" style="font-weight:400">12</b>+</strong><span class="mono">cities with a studio</span></div>
+        <div><strong><b data-count="507" style="font-weight:400">507</b>k</strong><span class="mono">follow @alienstattooindia</span></div>
+        <div><strong>4.9</strong><span class="mono">google rating</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · studios -->
+  <section class="sec" id="studios">
+    <div class="wrap g12">
+      <div class="kick mono" style="grid-column:1/-1"><b>05</b><i></i><span>the studios</span></div>
+      <h2 class="rv" style="grid-column:1/-1"><span class="ml"><span>one standard,</span></span><span class="ml"><span style="--i:1">12+ cities.</span></span></h2>
+      <div class="cities" id="cities"></div>
+      <p class="rating mono"><span>4.9 · google reviews</span><span>4.9 · hygiene &amp; safety</span><span>free touch-ups at any aliens studio</span></p>
+    </div>
+  </section>
+
+  <!-- 06 · before the needle -->
+  <section class="sec" id="before" style="padding-top:0">
+    <div class="wrap g12">
+      <div class="kick mono" style="grid-column:1/-1"><b>06</b><i></i><span>before the needle</span></div>
+      <div class="prep">
+        <div><span class="mono t">24 h before</span><h3>skip the drinks</h3><p>alcohol thins the blood, and the ink holds worse.</p></div>
+        <div><span class="mono t">the night before</span><h3>sleep properly</h3><p>long realism sessions run hours. come rested.</p></div>
+        <div><span class="mono t">2 h before</span><h3>eat a real meal</h3><p>steady blood sugar keeps you steady in the chair.</p></div>
+        <div><span class="mono t">on the day</span><h3>dress for the spot</h3><p>wear something that opens onto the placement.</p></div>
+        <div><span class="mono t">after</span><h3>follow the sheet</h3><p>aftercare and touch-ups are covered at any aliens studio.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · book -->
+  <section class="sec" id="book" style="padding-top:0">
+    <div class="wrap g12">
+      <div class="txt">
+        <div class="kick mono"><b>07</b><i></i><span>your sitting</span></div>
+        <h2 class="rv" style="font-size:clamp(3rem,5vw,5.6rem)"><span class="ml"><span>bring the idea.</span></span><span class="ml"><span style="--i:1">we’ll find</span></span><span class="ml"><span style="--i:2">the thing in it.</span></span></h2>
+      </div>
+      <form id="sitting" novalidate>
+        <div class="f w"><label class="mono" for="idea">the idea</label><textarea id="idea" name="idea" rows="3">a black-and-grey hanuman, eyes looking straight out, on my upper arm.</textarea></div>
+        <div class="f"><label class="mono" for="place">placement</label><select id="place" name="place"><option>upper arm</option><option>forearm</option><option>full sleeve</option><option>chest</option><option>back</option><option>calf</option><option>hand or fingers</option><option>neck</option></select></div>
+        <div class="f"><label class="mono" for="size">size</label><select id="size" name="size"><option>palm-sized, up to 4 in</option><option selected>hand-span, 4 to 8 in</option><option>half sleeve</option><option>full sleeve</option><option>back piece</option></select></div>
+        <div class="f"><label class="mono" for="city">studio city</label><select id="city" name="city"><option>mumbai, malad west</option><option>delhi</option><option>bengaluru</option><option>goa</option><option>kolkata</option><option>chennai</option><option>ahmedabad</option><option>kochi</option><option>vizag</option><option>not sure yet</option></select></div>
+        <div class="f"><label class="mono" for="phone">whatsapp number</label><input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+91 98xxx xxxxx" autocomplete="tel"></div>
+        <fieldset class="f w"><legend class="mono">who tattoos it</legend>
+          <div class="who">
+            <input type="radio" id="who-match" name="who" value="an artist matched to the style" checked><label for="who-match">match me with an artist</label>
+            <input type="radio" id="who-sunny" name="who" value="sunny, our founder"><label for="who-sunny">ask for sunny, our founder</label>
+          </div>
+        </fieldset>
+        <div class="send"><button class="pill" type="submit" data-cursor="send">send it to the studio ↘</button><span class="mono dim">the studio replies with dates and a quote</span></div>
+        <p id="sent" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="word rv" aria-label="Aliens Tattoo"><span class="ml"><span>aliens</span></span><span class="ml"><span style="--i:1">tattoo</span></span></p>
+    <div class="g12 fcols">
+      <div><p class="mono">flagship</p><p>old sonal industrial estate, k2, link road, malad west, mumbai 400064</p></div>
+      <div><p class="mono">founder</p><p>sunny bhanushali<br><a href="https://www.instagram.com/sunnybhanushali/" target="_blank" rel="noopener" data-cursor="follow">@sunnybhanushali ↗</a></p></div>
+      <div><p class="mono">instagram</p><p><a href="https://www.instagram.com/alienstattooindia/" target="_blank" rel="noopener" data-cursor="follow">@alienstattooindia ↗</a><br><a href="https://www.instagram.com/alienstattooschool/" target="_blank" rel="noopener" data-cursor="follow">@alienstattooschool ↗</a></p></div>
+      <div><p class="mono">mumbai, now</p><p id="clock">--:-- ist</p></div>
+    </div>
+    <div class="colo mono">
+      <span>concept redesign for aliens tattoo, october 2026</span>
+      <span>photos: pexels stand-ins until the studio’s own work is dropped in</span>
+      <a href="#hero" data-cursor="top">back to the skin ↑</a>
+    </div>
+  </div>
+</footer>
+
+<div id="lb" hidden role="dialog" aria-modal="true" aria-label="Plate">
+  <button id="lbClose" type="button" data-cursor="close">close ✕</button>
+  <figure><div class="ph" id="lbPh"><img id="lbImg" alt=""><span class="fb" id="lbFb"></span></div>
+    <figcaption><p class="mono dim" id="lbIdx"></p><h3 id="lbName"></h3><p id="lbTxt"></p></figcaption></figure>
+</div>
+
+<svg id="cur" aria-hidden="true" width="100%" height="100%">
+  <path id="rope" fill="none" stroke="#2C2926" stroke-width="5" stroke-linecap="round"/>
+  <path id="rope2" fill="none" stroke="#4A4540" stroke-width="1.2" stroke-linecap="round"/>
+  <g id="mach">
+    <g id="mbody">
+      <!-- needle + cartridge -->
+      <line x1="0" y1="0" x2="0" y2="-16" stroke="#E8E3D9" stroke-width="1.3"/>
+      <path d="M-3 -16 L3 -16 L7 -38 L-7 -38 Z" fill="#3A3633" stroke="#E8E3D9" stroke-opacity=".4" stroke-width=".8"/>
+      <rect x="-8" y="-84" width="16" height="46" rx="3" fill="#E8E3D9" fill-opacity=".16" stroke="#E8E3D9" stroke-opacity=".55" stroke-width=".8"/>
+      <line x1="0" y1="-84" x2="0" y2="-38" stroke="#E8E3D9" stroke-opacity=".7" stroke-width=".8"/>
+      <rect id="cartCap" x="-9" y="-92" width="18" height="9" rx="2" fill="#9B8DFF"/>
+      <!-- grip -->
+      <rect x="-12" y="-150" width="24" height="58" rx="6" fill="#1E1C1A" stroke="#E8E3D9" stroke-opacity=".3" stroke-width=".8"/>
+      <g stroke="#E8E3D9" stroke-opacity=".18" stroke-width="1">
+        <line x1="-11" y1="-142" x2="11" y2="-142"/><line x1="-11" y1="-136" x2="11" y2="-136"/><line x1="-11" y1="-130" x2="11" y2="-130"/><line x1="-11" y1="-124" x2="11" y2="-124"/><line x1="-11" y1="-118" x2="11" y2="-118"/><line x1="-11" y1="-112" x2="11" y2="-112"/><line x1="-11" y1="-106" x2="11" y2="-106"/><line x1="-11" y1="-100" x2="11" y2="-100"/>
+      </g>
+      <!-- motor body -->
+      <rect x="-13" y="-232" width="26" height="84" rx="9" fill="#E8E3D9" stroke="#0D0C0B" stroke-opacity=".55" stroke-width="1.2"/>
+      <rect x="-13" y="-176" width="26" height="4" fill="#0D0C0B" fill-opacity=".25"/>
+      <circle id="led" cx="0" cy="-212" r="3.2" fill="#9B8DFF"/>
+      <text x="0" y="-190" transform="rotate(-90 0 -190)" text-anchor="middle" dominant-baseline="middle" font-family="Martian Mono, monospace" font-size="6.5" fill="#0D0C0B" fill-opacity=".7" letter-spacing=".5" id="grip">aliens</text>
+      <rect x="-9" y="-248" width="18" height="17" rx="4" fill="#2C2926"/>
+    </g>
+  </g>
+</svg>
+<div id="chip">hold to ink</div>
+<div class="grain" aria-hidden="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = () => matchMedia('(pointer:fine) and (min-width:900px)').matches;
+  const $ = s => document.querySelector(s);
+  document.documentElement.classList.add('js');
+  const px = (id,w)=>`https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
+
+  /* ---------- data ---------- */
+  const plates = [
+    {id:2928342, n:'black & grey, at work', t:'the machine running on a black-and-grey piece. where every realism session starts.'},
+    {id:30683835,n:'linework, live', t:'the outline going in. the stencil comes off, the line has to hold.'},
+    {id:6044740, n:'fine line, healed', t:'a delicate piece, weeks later, in daylight. healed work is the real portfolio.'},
+    {id:5025087, n:'neck piece, in progress', t:'a placement that needs a steady hand and a still client.'},
+    {id:19669302,n:'floral, healed', t:'florals settle softly once the skin has closed.'},
+    {id:20531514,n:'black & grey linework', t:'clean black lines on the leg, built to age well.'},
+    {id:5088486, n:'botanical fine line', t:'single-needle botanicals. small, but nothing hides.'},
+    {id:7005661, n:'the hand', t:'nitrile, a cartridge, a pen machine. the tools are simple. the hours are not.'}
+  ];
+  const artists = [
+    ['sunny bhanushali','founder. hyper-realism, colour surrealism and mythology concepts.','mumbai','also founded aliens tattoo school'],
+    ['allan gois','dotwork, portraits, realism and new school.','mumbai','award winner at india’s biggest conventions'],
+    ['devendra palav','script, calligraphy and design-led fusions.','mumbai','the one to see for lettering'],
+    ['sakshi panwar','fine line.','mumbai','trained at aliens tattoo school'],
+    ['binod tamang','realism and calligraphy.','mumbai','trained at aliens tattoo school'],
+    ['darshan vaya','realism.','mumbai','trained at aliens tattoo school'],
+    ['taniya bhanushali','line art and neo-traditional.','mumbai','“don’t give up before the final output.”'],
+    ['rajesh natekar','realism.','mumbai','came back to tattooing through aliens'],
+    ['sunny ghandat','realism, script.','bengaluru','known for portraits with strong emotion'],
+    ['chethan gowda','all-round, and a fun chair to sit in.','bengaluru','with aliens since 2018'],
+    ['ganesh biswakarma','all-round.','mumbai','from darjeeling'],
+    ['manoj laddha','painterly work.','mumbai','freelance painter turned tattoo artist']
+  ];
+  const cities = [
+    ['mumbai','flagship · malad west','since 2011'],['delhi','the capital studio','since 2019'],['bengaluru','koramangala',''],
+    ['kolkata','hindustan park',''],['chennai','vadapalani',''],['ahmedabad','bodakdev',''],['goa','',''],['kochi','',''],['vizag','','']
+  ];
+
+  /* ---------- loader ---------- */
+  const loader=$('#loader'), ldNum=$('#ldNum'), ldBar=$('#ldBar');
+  function finishLoad(){ loader.classList.add('out'); document.body.classList.add('ready'); setTimeout(()=>loader.remove(),1100); revealHero(); }
+  if(reduce){ finishLoad(); }
+  else{
+    const t0=performance.now(), dur=1100;
+    (function lt(now){ const p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+      ldNum.textContent=String(Math.round(e*100)).padStart(3,'0'); ldBar.style.width=(e*100)+'%';
+      if(p<1) requestAnimationFrame(lt); else setTimeout(finishLoad,120); })(t0);
+  }
+  function revealHero(){ const h=$('#hero .rv'); if(h) h.classList.add('in'); }
+
+  /* ---------- smooth scroll ---------- */
+  let lenis=null;
+  if(!reduce && window.Lenis){ try{ lenis=new Lenis({lerp:.1}); (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ const el=document.querySelector(a.getAttribute('href')); if(el){ e.preventDefault(); lenis.scrollTo(el,{offset:0}); } }));
+  }catch(e){ lenis=null; } }
+
+  /* ---------- reveals ---------- */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv').forEach(el=>{ if(!el.closest('#hero')) io.observe(el); });
+  setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('in')),9000);
+
+  /* ---------- nav ---------- */
+  const nav=$('#nav');
+  addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
+
+  /* ---------- marquee duplicate ---------- */
+  const mq=$('#mq'); mq.innerHTML+=mq.innerHTML;
+
+  /* ---------- clock ---------- */
+  function tick(){ try{ $('#clock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'}).format(new Date())+' ist'; }catch(e){} }
+  tick(); setInterval(tick,20000);
+
+  /* ---------- sound (optional, user-started) ---------- */
+  let soundOn=false, ac=null, buzz=null;
+  $('#snd').addEventListener('click',e=>{ soundOn=!soundOn; e.currentTarget.setAttribute('aria-pressed',soundOn); e.currentTarget.textContent=soundOn?'sound on':'sound off';
+    if(soundOn && !ac){ try{ ac=new (window.AudioContext||window.webkitAudioContext)(); }catch(err){ soundOn=false; } } });
+  function buzzOn(){ if(!soundOn||!ac||buzz) return;
+    const o1=ac.createOscillator(), o2=ac.createOscillator(), f=ac.createBiquadFilter(), g=ac.createGain();
+    o1.type='sawtooth'; o1.frequency.value=118; o2.type='square'; o2.frequency.value=59; f.type='lowpass'; f.frequency.value=700; g.gain.value=0;
+    o1.connect(f); o2.connect(f); f.connect(g); g.connect(ac.destination); o1.start(); o2.start(); g.gain.setTargetAtTime(.045,ac.currentTime,.02);
+    buzz={o1,o2,g}; }
+  function buzzOff(){ if(!buzz) return; const b=buzz; buzz=null; b.g.gain.setTargetAtTime(0,ac.currentTime,.03); setTimeout(()=>{ try{b.o1.stop();b.o2.stop();}catch(e){} },200); }
+
+  /* ---------- the machine cursor ---------- */
+  const cur=$('#cur'), mach=$('#mach'), mbody=$('#mbody'), rope=$('#rope'), rope2=$('#rope2'), chip=$('#chip'), grip=$('#grip'), cartCap=$('#cartCap'), led=$('#led');
+  let mx=-200,my=-200,lx=-200,ly=-200,vx=0,ang=30,inking=false,label='',hoverMode='';
+  const S=.62, LEN=248*S, RN=18, RSEG=17;
+  const rp=[...Array(RN)].map((_,i)=>({x:-200,y:-200+i*RSEG,px:-200,py:-200+i*RSEG}));
+  function enableCursor(){ if(fine()) document.documentElement.classList.add('cur'); else document.documentElement.classList.remove('cur'); }
+  enableCursor(); addEventListener('resize',enableCursor);
+  if(!fine()) $('#tryTxt').textContent='tap “try the needle”, then draw';
+  let seen=false;
+  addEventListener('pointermove',e=>{ if(e.pointerType!=='mouse') return; mx=e.clientX; my=e.clientY;
+    if(!seen){ seen=true; lx=mx; ly=my; const a=anchor(); rp.forEach((p,i)=>{p.x=p.px=a.x;p.y=p.py=a.y+i*RSEG;}); } },{passive:true});
+  document.addEventListener('mouseleave',()=>{ mx=my=-400; });
+  function anchor(){ const r=ang*Math.PI/180; return {x:mx+Math.sin(r)*LEN, y:my-Math.cos(r)*LEN}; }
+  document.addEventListener('mouseover',e=>{
+    const t=e.target.closest('[data-cursor],input,textarea,select,.plate,.cart,.city');
+    let l='', m='';
+    if(!t){ l=''; }
+    else if(t.matches('input,textarea,select')){ l=''; m='type'; }
+    else if(t.classList.contains('cart')){ l='load · '+t.dataset.name; m='link'; }
+    else if(t.classList.contains('plate')){ l='open plate '+t.dataset.n; m='link'; }
+    else if(t.classList.contains('city')){ l='visit '+t.dataset.city; m='link'; }
+    else { l=t.dataset.cursor; m=(t.id==='hero'||t.id==='scene')?'':'link'; }
+    label=l; hoverMode=m;
+    chip.textContent=l; chip.classList.toggle('show',!!l);
+  });
+  function frame(){
+    if(fine()){
+      const dx=mx-lx; lx=mx; ly=my; vx+= (dx-vx)*.25;
+      const target=(hoverMode==='link'?14:30)+Math.max(-24,Math.min(24,vx*1.1));
+      ang+=(target-ang)*.14;
+      const j=inking?1.1:(Math.abs(vx)>8?.35:0);
+      const jx=(Math.random()-.5)*j, jy=(Math.random()-.5)*j;
+      mach.setAttribute('transform',`translate(${mx} ${my}) rotate(${ang.toFixed(2)}) scale(${S})`);
+      mbody.setAttribute('transform',`translate(${jx.toFixed(2)} ${jy.toFixed(2)})`);
+      mach.style.opacity=hoverMode==='type'?'.0':'1';
+      led.setAttribute('fill',inking?'#E8E3D9':'#9B8DFF');
+      // rope (verlet)
+      const a=anchor(); rp[0].x=a.x; rp[0].y=a.y;
+      for(let i=1;i<RN;i++){ const p=rp[i]; const nx=p.x+(p.x-p.px)*.96, ny=p.y+(p.y-p.py)*.96+.55; p.px=p.x; p.py=p.y; p.x=nx; p.y=ny; }
+      for(let k=0;k<7;k++){ rp[0].x=a.x; rp[0].y=a.y;
+        for(let i=1;i<RN;i++){ const p0=rp[i-1],p1=rp[i]; const ddx=p1.x-p0.x, ddy=p1.y-p0.y, d=Math.hypot(ddx,ddy)||1, diff=(d-RSEG)/d;
+          if(i===1){ p1.x-=ddx*diff; p1.y-=ddy*diff; } else { p0.x+=ddx*diff*.5; p0.y+=ddy*diff*.5; p1.x-=ddx*diff*.5; p1.y-=ddy*diff*.5; } } }
+      let d=`M${rp[0].x.toFixed(1)} ${rp[0].y.toFixed(1)}`;
+      for(let i=1;i<RN-1;i++){ const xc=(rp[i].x+rp[i+1].x)/2, yc=(rp[i].y+rp[i+1].y)/2; d+=` Q${rp[i].x.toFixed(1)} ${rp[i].y.toFixed(1)} ${xc.toFixed(1)} ${yc.toFixed(1)}`; }
+      rope.setAttribute('d',d); rope2.setAttribute('d',d);
+      chip.style.transform=`translate(${mx+22}px,${my+18}px)`;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- hero ink (the skin) ---------- */
+  const hero=$('#hero'), cv=$('#ink'), cx=cv.getContext('2d');
+  let strokes=[], drawing=null, dpr=1, inkDirty=true, touchInk=false;
+  function sizeInk(){ dpr=Math.min(2,devicePixelRatio||1); cv.width=hero.clientWidth*dpr; cv.height=hero.clientHeight*dpr; cv.style.width=hero.clientWidth+'px'; cv.style.height=hero.clientHeight+'px'; inkDirty=true; }
+  sizeInk(); addEventListener('resize',sizeInk);
+  function hp(e){ const r=hero.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top, t:performance.now()}; }
+  hero.addEventListener('pointerdown',e=>{
+    if(e.target.closest('a,button')) return;
+    if(e.pointerType!=='mouse' && !touchInk) return;
+    if(e.pointerType==='mouse' && e.button!==0) return;
+    e.preventDefault(); hero.setPointerCapture(e.pointerId);
+    drawing={pts:[hp(e)], t0:performance.now(), done:0}; strokes.push(drawing); inking=true; buzzOn();
+    $('#tryTxt').textContent='keep going. fresh ink heals to grey.';
+  });
+  hero.addEventListener('pointermove',e=>{ if(!drawing) return; const p=hp(e), q=drawing.pts[drawing.pts.length-1];
+    if(Math.hypot(p.x-q.x,p.y-q.y)>1.4){ p.x+=(Math.random()-.5)*.6; p.y+=(Math.random()-.5)*.6; drawing.pts.push(p); inkDirty=true; } });
+  function endInk(){ if(drawing){ drawing.done=performance.now(); drawing=null; } inking=false; buzzOff(); }
+  hero.addEventListener('pointerup',endInk); hero.addEventListener('pointercancel',endInk);
+  $('#wipe').addEventListener('click',()=>{ strokes=[]; inkDirty=true; $('#tryTxt').textContent='clean skin. go again.'; });
+  $('#inkMode').addEventListener('click',e=>{ touchInk=!touchInk; hero.classList.toggle('inking',touchInk); e.currentTarget.textContent=touchInk?'done inking':'try the needle';
+    $('#tryTxt').textContent=touchInk?'draw with your finger':'hold anywhere here to try the needle'; });
+  const V=[155,141,255], B=[150,144,136];
+  function inkFrame(now){
+    let healing=false;
+    strokes.forEach(s=>{ if(!s.done || now-s.done<3600) healing=true; });
+    if(inkDirty || healing){
+      cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,cv.width,cv.height); cx.lineCap='round'; cx.lineJoin='round';
+      strokes.forEach(s=>{
+        const age=s.done?Math.min(1,Math.max(0,(now-s.done-600)/3000)):0;
+        const c=V.map((v,i)=>Math.round(v+(B[i]-v)*age));
+        cx.strokeStyle=`rgba(${c[0]},${c[1]},${c[2]},${(1-age*.35).toFixed(3)})`;
+        cx.shadowColor=`rgba(${c[0]},${c[1]},${c[2]},.35)`; cx.shadowBlur=reduce?0:3*(1-age);
+        cx.lineWidth=2.6-age*.6;
+        const p=s.pts; if(p.length<2){ cx.beginPath(); cx.arc(p[0].x,p[0].y,1.6,0,7); cx.fillStyle=cx.strokeStyle; cx.fill(); return; }
+        cx.beginPath(); cx.moveTo(p[0].x,p[0].y);
+        for(let i=1;i<p.length-1;i++){ cx.quadraticCurveTo(p[i].x,p[i].y,(p[i].x+p[i+1].x)/2,(p[i].y+p[i+1].y)/2); }
+        cx.lineTo(p[p.length-1].x,p[p.length-1].y); cx.stroke();
+      });
+      inkDirty=false;
+    }
+    requestAnimationFrame(inkFrame);
+  }
+  requestAnimationFrame(inkFrame);
+
+  /* ---------- plates (sleeve + mobile strip + lightbox) ---------- */
+  function plateEl(p,i){
+    const d=document.createElement('button'); d.type='button'; d.className='plate'; d.dataset.i=i; d.dataset.n=String(i+1).padStart(2,'0');
+    d.setAttribute('aria-label','Open plate '+(i+1)+': '+p.n);
+    d.innerHTML=`<img alt="${p.n}" loading="lazy" src="${px(p.id,900)}"><span class="fb"><b>${p.n}</b></span><span class="pn">${String(i+1).padStart(2,'0')}</span>`;
+    d.querySelector('img').addEventListener('error',()=>d.classList.add('noimg'));
+    d.addEventListener('click',()=>{ if(!dragMoved) openLb(i); });
+    return d;
+  }
+  const ring=$('#ring'), strip=$('#strip'), scene=$('#scene');
+  const panels=plates.map((p,i)=>{ const el=plateEl(p,i); ring.appendChild(el); return el; });
+  plates.forEach((p,i)=>strip.appendChild(plateEl(p,i)));
+  const NP=plates.length, STEP=360/NP;
+  let pw=300, R=400, rot=0, dragRot=0, dragMoved=false;
+  function layoutRing(){
+    const h=scene.clientHeight||500; pw=Math.min(Math.max(220,innerWidth*.22), h*.84/1.3); const ph=pw*1.3;
+    R=Math.round(pw/2/Math.tan(Math.PI/NP))+26;
+    panels.forEach((el,i)=>{ el.style.width=pw+'px'; el.style.height=ph+'px'; el.dataset.a=i*STEP; });
+    ring.style.marginLeft=(-pw/2)+'px'; ring.style.marginTop=(-ph/2)+'px';
+  }
+  layoutRing(); addEventListener('resize',layoutRing);
+  const work=$('#work'), pIdx=$('#pIdx'), pName=$('#pName'), pBar=$('#pBar');
+  let lastFront=-1;
+  function sleeveFrame(){
+    if(innerWidth>=900){
+      const r=work.getBoundingClientRect(), total=work.offsetHeight-innerHeight;
+      const prog=Math.min(1,Math.max(0,-r.top/Math.max(1,total)));
+      const target=-prog*STEP*(NP-1)+dragRot;
+      rot+= reduce?(target-rot):(target-rot)*.12;
+      ring.style.transform=`translateZ(${-R}px) rotateX(-4deg) rotateY(${rot.toFixed(2)}deg)`;
+      panels.forEach((el,i)=>{ const a=((i*STEP+rot)%360+540)%360-180; const c=Math.cos(a*Math.PI/180);
+        el.style.transform=`rotateY(${i*STEP}deg) translateZ(${R}px)`;
+        el.style.opacity=(.18+.82*Math.max(0,c)).toFixed(3); el.style.filter=c>.92?'none':`brightness(${(.35+.65*Math.max(0,c)).toFixed(2)})`;
+        el.tabIndex=c>.7?0:-1; });
+      let front=Math.round(-rot/STEP)%NP; front=(front+NP)%NP;
+      if(front!==lastFront){ lastFront=front; pIdx.textContent='plate '+String(front+1).padStart(2,'0')+' / '+String(NP).padStart(2,'0'); pName.textContent=plates[front].n; }
+      pBar.style.width=(prog*100)+'%';
+    }
+    requestAnimationFrame(sleeveFrame);
+  }
+  requestAnimationFrame(sleeveFrame);
+  let dragging=false, dx0=0, dr0=0;
+  scene.addEventListener('pointerdown',e=>{ if(e.pointerType!=='mouse') return; dragging=true; dragMoved=false; dx0=e.clientX; dr0=dragRot; });
+  addEventListener('pointermove',e=>{ if(!dragging) return; const d=e.clientX-dx0; if(Math.abs(d)>4) dragMoved=true; dragRot=dr0+d*.25; });
+  addEventListener('pointerup',()=>{ if(dragging){ dragging=false; dragRot=Math.round(dragRot/STEP)*STEP; setTimeout(()=>dragMoved=false,0); } });
+
+  const lb=$('#lb'); let lastFocus=null;
+  function openLb(i){ const p=plates[i]; lastFocus=document.activeElement; $('#lbImg').src=px(p.id,1400); $('#lbImg').alt=p.n; $('#lbPh').classList.remove('noimg');
+    $('#lbImg').onerror=()=>$('#lbPh').classList.add('noimg'); $('#lbFb').textContent=String(i+1).padStart(2,'0');
+    $('#lbIdx').textContent='plate '+String(i+1).padStart(2,'0')+' / '+String(NP).padStart(2,'0'); $('#lbName').textContent=p.n; $('#lbTxt').textContent=p.t;
+    lb.hidden=false; if(lenis) lenis.stop(); $('#lbClose').focus(); }
+  function closeLb(){ lb.hidden=true; if(lenis) lenis.start(); if(lastFocus) lastFocus.focus(); }
+  $('#lbClose').addEventListener('click',closeLb); lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape' && !lb.hidden) closeLb(); });
+
+  /* ---------- the rack ---------- */
+  const rack=$('#rack');
+  const carts=artists.map((a,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='cart'; b.dataset.name=a[0];
+    b.setAttribute('aria-label',a[0]); b.innerHTML=`<span class="cap"></span><span class="bd"><span>${a[0]}</span></span><span class="tip"></span>`;
+    b.addEventListener('mouseenter',()=>pick(i)); b.addEventListener('focus',()=>pick(i)); b.addEventListener('click',()=>pick(i)); rack.appendChild(b); return b; });
+  function pick(i){ const a=artists[i]; carts.forEach((c,k)=>{ c.classList.toggle('on',k===i); c.setAttribute('aria-pressed',k===i); });
+    $('#aIdx').textContent='cartridge '+String(i+1).padStart(2,'0')+' / '+String(artists.length).padStart(2,'0');
+    $('#aName').textContent=a[0]; $('#aWhat').textContent=a[1]; $('#aCity').textContent=a[2]; $('#aNote').textContent=a[3];
+    $('#aBook').textContent='book with '+a[0].split(' ')[0]+' ↘';
+    grip.textContent=a[0].split(' ')[0]; }
+  pick(1);
+
+  /* ---------- studios ---------- */
+  $('#cities').innerHTML=cities.map(c=>`<a class="city" href="https://www.alienstattoo.com/" target="_blank" rel="noopener" data-city="${c[0]}"><b>${c[0]}</b><span class="mono dim">${c[1]||'aliens tattoo studio'}</span><span class="mono dim">${c[2]}</span><span class="mono ar">↗</span></a>`).join('');
+
+  /* ---------- odometer ---------- */
+  const cio=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return; cio.unobserve(e.target); const el=e.target, tg=+el.dataset.count;
+    if(reduce){ el.textContent=tg; return; } let s=0; const iv=setInterval(()=>{ s++; el.textContent=Math.round(tg*s/14); if(s>=14) clearInterval(iv); },60); }),{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+  /* ---------- form (front end only in this concept) ---------- */
+  $('#sitting').addEventListener('submit',e=>{ e.preventDefault(); const f=e.target, who=f.querySelector('input[name=who]:checked').value, s=$('#sent');
+    s.textContent='request drafted: '+f.size.value+' on the '+f.place.value+', '+f.city.value+', with '+who+'. this concept page doesn’t send anything yet. on the live site it goes straight to the aliens booking desk.'; s.hidden=false; });
+})();
+</script>
